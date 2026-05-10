@@ -226,11 +226,18 @@ function DeviceCard({ device, expanded, onToggle }) {
 
 function ScanHistory({ history, onSelect, sidebarOpen }) {
   return (
-    <div className={cls(
-      "fixed top-0 left-0 h-full z-40 transition-transform duration-300",
-      "w-64 bg-slate-950 border-r border-cyan-900/40 flex flex-col",
-      sidebarOpen ? "translate-x-0" : "-translate-x-full"
-    )}>
+   <div style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      height: "100%",
+      width: "260px",
+      zIndex: 40,
+      background: "#020a14",
+      borderRight: "1px solid #164e63",
+      display: sidebarOpen ? "flex" : "none",
+      flexDirection: "column",
+    }}>
       <div className="px-4 py-4 border-b border-cyan-900/30">
         <h2 className="text-xs font-mono text-cyan-500 tracking-widest uppercase">Scan History</h2>
       </div>
@@ -360,8 +367,13 @@ export default function App() {
     >
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/60 z-30"
           onClick={() => setSidebarOpen(false)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.6)",
+            zIndex: 30,
+          }}
         />
       )}
       <ScanHistory
@@ -472,25 +484,20 @@ export default function App() {
               />
               <span className="text-cyan-400 w-4">T{timing}</span>
             </div>
-            {[
+        {[
               { label: "OS Detect",     val: osDetect,  set: setOsDetect },
               { label: "Version",       val: verDetect, set: setVerDetect },
               { label: "Top 100 Ports", val: topPorts,  set: setTopPorts  },
             ].map(({ label, val, set }) => (
-              <label key={label} className="flex items-center gap-1.5 cursor-pointer select-none">
-                <div
-                  onClick={() => !scanning && set(!val)}
-                  className={cls(
-                    "w-8 h-4 rounded-full transition-colors relative",
-                    val ? "bg-cyan-600" : "bg-slate-700"
-                  )}
-                >
-                  <span className={cls(
-                    "absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform",
-                    val ? "translate-x-4" : "translate-x-0.5"
-                  )} />
-                </div>
-                <span className={val ? "text-cyan-400" : "text-slate-500"}>{label}</span>
+              <label key={label} style={{ display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", fontSize: "12px" }}>
+                <input
+                  type="checkbox"
+                  checked={val}
+                  onChange={() => !scanning && set(!val)}
+                  disabled={scanning}
+                  style={{ width: "16px", height: "16px", cursor: "pointer", accentColor: "#00f5ff" }}
+                />
+                <span style={{ color: val ? "#00f5ff" : "#94a3b8" }}>{label}</span>
               </label>
             ))}
           </div>
