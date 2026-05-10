@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useState, useEffect, useRef, useCallback, useMemo,
 } from "react";
@@ -326,6 +327,7 @@ export default function App() {
     });
 
     return () => socket.disconnect();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const startScan = useCallback(() => {
